@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database-server-config>
+    <address>192.168.184.10:3306</address>
+    <dbname>lmsdb</dbname>
+    <dbusername>root</dbusername>
+    <dbpassword>123456</dbpassword>
+</database-server-config>
