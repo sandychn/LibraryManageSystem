@@ -37,7 +37,7 @@ public class RdrReturnService {
 		String isbn = bookRecord.getbISBN();
 		String dialogMessageHtml = "<html>您选择的书籍信息:<br/><br/>书名: " + bookName + "<br/>ISBN: " + isbn + "<br/>";
 		if (overdue) {
-			Long overdueDay = (nowTime.getTime() - exceptedReturnTime) / 1000 / 3600 / 24;
+			long overdueDay = (nowTime.getTime() - exceptedReturnTime) / 1000 / 3600 / 24;
 			dialogMessageHtml += "<br/><font color=\"red\">请注意：<br/>该书已于 " + formatter.format(exceptedReturnDate)
 					+ " 超期，已逾期" + overdueDay + "天。<br/>请在还书之后前往服务台，缴纳图书超期滞纳金。</font><br/>";
 		}

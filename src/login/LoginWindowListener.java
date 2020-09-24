@@ -30,7 +30,7 @@ public class LoginWindowListener implements WindowListener {
 			loginService.disconnectDatabase();
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
-			System.out.println("断开数据库失败: " + sqle.getMessage());
+			System.err.println("断开数据库失败: " + sqle.getMessage());
 		}
 	}
 

@@ -13,7 +13,7 @@ public class RdrLendingDataAccess extends DataAccess {
 	public boolean isBookNotReturnYetByUser(User user, Book book) throws SQLException {
 		String sql = "select bISBN from book_lending where uName=\'" + user.getUsername() + "\' and bISBN=\'"
 				+ book.getIsbn() + "\' and brTime is null";
-		return executeQuery(sql).next() == true;
+		return executeQuery(sql).next();
 	}
 
 	public int getBookCount(Book book) throws SQLException {
@@ -27,7 +27,7 @@ public class RdrLendingDataAccess extends DataAccess {
 	    
 		String sql = "update book set bCount=bCount-1 where bISBN=\'" + book.getIsbn() + "\'";
 		executeUpdate(sql);
-		sql = "insert into book_lending values(\'" + book.getIsbn() + "\',\'" + user.getUsername() + "\',getdate(),"
+		sql = "insert into book_lending values(\'" + book.getIsbn() + "\',\'" + user.getUsername() + "\',now(),"
 				+ BookConstant.DEFAULT_BLDUE + ",null)";
 		executeUpdate(sql);
 	}
