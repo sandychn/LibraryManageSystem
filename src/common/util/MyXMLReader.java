@@ -1,14 +1,12 @@
 package common.util;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import org.w3c.dom.Document;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyXMLReader {
     public Map<String, String> readXML() {

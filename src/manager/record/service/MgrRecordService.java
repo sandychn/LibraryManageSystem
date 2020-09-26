@@ -1,8 +1,6 @@
 package manager.record.service;
 
-import entity.User;
 import manager.record.dao.MgrRecordDataAccess;
-import reader.record.dao.RdrRecordDataAccess;
 
 import java.sql.SQLException;
 import java.util.Vector;

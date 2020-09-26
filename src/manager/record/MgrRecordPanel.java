@@ -1,24 +1,13 @@
 package manager.record;
 
-import common.util.CurrentUser;
-import common.util.Tools;
-import entity.Book;
-import entity.BookLendingRecord;
 import manager.record.service.MgrRecordService;
-import reader.record.service.RdrRecordException;
-import reader.record.service.RdrRecordService;
 
 import javax.swing.*;
-
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Vector;
 
 public class MgrRecordPanel extends JPanel {

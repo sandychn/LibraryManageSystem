@@ -1,17 +1,18 @@
 package register;
 
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.*;
-
-import javax.swing.*;
-
 import common.constant.UserConstant;
 import common.util.Tools;
 import entity.User;
 import login.LoginWindow;
 import register.service.RegException;
 import register.service.RegService;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 @SuppressWarnings("serial")
 public class RegWindow extends JFrame {
@@ -85,31 +86,31 @@ public class RegWindow extends JFrame {
         textPassword = new JPasswordField(15);
 
         textPassword.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                String username = RegWindow.this.getUName(), password = RegWindow.this.getPassword();
-                int code = e.getKeyChar();
-                if (code == KeyEvent.VK_BACK_SPACE) {
-                    e.isActionKey();
-                } else if (code == KeyEvent.VK_ENTER) {
-                    tryRegister();
-                } else if (password.length() >= UserConstant.PASSWORD_MAXLEN) { // 密码长度限制
-                    e.consume();
-                } else if (!Tools.isLegalCharacter(code)) {
-                    e.consume();
-                }
-            }
+                                        @Override
+                                        public void keyTyped(KeyEvent e) {
+                                            String username = RegWindow.this.getUName(), password = RegWindow.this.getPassword();
+                                            int code = e.getKeyChar();
+                                            if (code == KeyEvent.VK_BACK_SPACE) {
+                                                e.isActionKey();
+                                            } else if (code == KeyEvent.VK_ENTER) {
+                                                tryRegister();
+                                            } else if (password.length() >= UserConstant.PASSWORD_MAXLEN) { // 密码长度限制
+                                                e.consume();
+                                            } else if (!Tools.isLegalCharacter(code)) {
+                                                e.consume();
+                                            }
+                                        }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
+                                        @Override
+                                        public void keyPressed(KeyEvent e) {
 
-            }
+                                        }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
+                                        @Override
+                                        public void keyReleased(KeyEvent e) {
 
-            }
-        }
+                                        }
+                                    }
         );
 
         labelPasswordTip = new JLabel("(6-16个字符,由大小写字母或数字组成)");

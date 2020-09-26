@@ -1,10 +1,7 @@
 package manager.record.dao;
 
-import common.constant.BookConstant;
 import common.dao.DataAccess;
-import entity.User;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;

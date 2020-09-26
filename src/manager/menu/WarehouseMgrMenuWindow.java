@@ -1,30 +1,22 @@
 package manager.menu;
 
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import login.LoginWindow;
 import manager.record.MgrBookListWindow;
+
+import javax.swing.*;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class WarehouseMgrMenuWindow extends JFrame { // 目录窗口
     private JLabel labelMenuTitle;
     private JPanel panelTitle;
     private JPanel panelButtons;
-    private JButton btnAdd;          	      // 增加图书
-    private JButton btnUpdate;      		  // 更改和删除图书
+    private JButton btnAdd;                  // 增加图书
+    private JButton btnUpdate;              // 更改和删除图书
     private JButton btnSelectLendingRecord;   // 查询借阅记录
-    private JButton btnAddClass;   		      // 增加图书分类
-    private JButton btnUpdateClass;			  // 修改图书分类名
-    private JButton btnLogout;      		  // 登出
+    private JButton btnAddClass;              // 增加图书分类
+    private JButton btnUpdateClass;              // 修改图书分类名
+    private JButton btnLogout;              // 登出
 
     @SuppressWarnings("unused")
     private LoginWindow loginWindow;
