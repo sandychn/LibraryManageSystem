@@ -14,7 +14,7 @@ public class MgrRecordService {
         dao = new MgrRecordDataAccess();
     }
 
-    public Vector<Vector<String>> getTableVectorTwo(String bISBN) throws SQLException {
-        return dao.getBookTableLendVectorTwo(bISBN);
+    public Vector<Vector<String>> getLendingRecordVector(String bISBN) throws SQLException {
+        return dao.getLendingRecordTableVector(bISBN);
     }
 }

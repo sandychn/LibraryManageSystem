@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Vector;
 
@@ -29,22 +30,9 @@ public class MgrRecordPanel extends JPanel {
     private DefaultTableModel defaultTableModel;
     private DefaultTableCellRenderer defaultTableCellRenderer;
     private Vector<String> tableTitles;
-    private Map<String, Integer> bookClassMap;
     private String bISBN;
 
-
     private static final String[] names = {"书名", "ISBN", "借阅人", "借阅日期", "借期/天", "归还日期"};
-    public static final int VECTOR_INDEX_BISBN = 0;
-    public static final int VECTOR_INDEX_BNAME = 1;
-    public static final int VECTOR_INDEX_BAUTHOR = 2;
-    public static final int VECTOR_INDEX_BLTIME = 3;
-    public static final int VECTOR_INDEX_BRTIME = 4;
-    public static final int VECTOR_INDEX_BLDUE = 5;
-    public static final int VECTOR_INDEX_RENEWRD = 6;
-    public static final int VECTOR_INDEX_BPRESS = 2;
-    public static final int VECTOR_INDEX_BCLASSNAME = 4;
-    public static final int VECTOR_INDEX_BSUM = 5;
-    public static final int VECTOR_INDEX_BCOUNT = 6;
 
     public MgrRecordPanel(String bISBN) {
         this.bISBN = bISBN;
@@ -54,9 +42,7 @@ public class MgrRecordPanel extends JPanel {
 
         // tablePanel components
         tableTitles = new Vector<String>();
-        for (String str : names) {
-            tableTitles.add(str);
-        }
+        Collections.addAll(tableTitles, names);
         tablePanel = new JPanel();
         defaultTableModel = new DefaultTableModel() {
             @Override
@@ -93,58 +79,13 @@ public class MgrRecordPanel extends JPanel {
         this.add(tablePanel);
     }
 
-    // 根据所输入的约束条件 从数据库中读取数据 刷新Table
     public void setTable(String bISBN) {
         try {
-            defaultTableModel.setDataVector(recordOperation.getTableVectorTwo(bISBN), tableTitles);
+            defaultTableModel.setDataVector(recordOperation.getLendingRecordVector(bISBN), tableTitles);
         } catch (SQLException sqle) {
             sqle.printStackTrace();
             JOptionPane.showMessageDialog(null, "获取借阅记录时出现错误。请联系管理员", "错误", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    // 表中是否有行被选中
-    public boolean isRowSelected() {
-        return table.getSelectedColumnCount() != 0;
-    }
-
-    // 返回已选中的行列表; 在调用此方法前应先调用 isRowSelected
-    @SuppressWarnings("unchecked")
-    public BookLendingRecord getSelectedBookRecord() throws RdrRecordException {
-        if (!isRowSelected()) {
-            throw new RdrRecordException("请在表格中要操作的图书记录");
-        }
-        try {
-            Vector<String> row = (Vector<String>) defaultTableModel.getDataVector().elementAt(table.getSelectedRow());
-            BookLendingRecord bookRecord = new BookLendingRecord(row.elementAt(VECTOR_INDEX_BISBN),
-                    row.elementAt(VECTOR_INDEX_BNAME), CurrentUser.getCurrentUser().getUsername(),
-                    Tools.stringToDate(row.elementAt(VECTOR_INDEX_BLTIME)),
-                    row.elementAt(VECTOR_INDEX_BRTIME) == "尚未归还" ? null
-                            : Tools.stringToDate(row.elementAt(VECTOR_INDEX_BRTIME)),
-                    Integer.parseInt(row.elementAt(VECTOR_INDEX_BLDUE)));
-            return bookRecord;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            throw new RdrRecordException("数据异常");
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            throw new RdrRecordException("数据异常");
-        }
-    }
-
-    public boolean isSelected() {
-        return table.getSelectedColumnCount() != 0;
-    }
-
-    public Book getSelectedBook() {
-        if (!isSelected()) {
-            return null;
-        }
-        Vector<String> row = (Vector<String>) defaultTableModel.getDataVector().elementAt(table.getSelectedRow());
-        Book book = new Book(row.get(VECTOR_INDEX_BISBN), row.get(VECTOR_INDEX_BNAME), row.get(VECTOR_INDEX_BAUTHOR),
-                row.get(VECTOR_INDEX_BPRESS), bookClassMap.get(row.get(VECTOR_INDEX_BCLASSNAME)),
-                Integer.parseInt(row.get(VECTOR_INDEX_BCOUNT)), Integer.parseInt(row.get(VECTOR_INDEX_BSUM)));
-        return book;
     }
 
     public boolean isTableEmpty() {

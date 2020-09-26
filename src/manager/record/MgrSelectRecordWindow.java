@@ -1,27 +1,15 @@
 package manager.record;
 
-import manager.book.select.MgrSelectBookWindow;
-import reader.menu.RdrMenuWindow;
-import reader.record.*;
-import reader.record.service.RdrRenewService;
-import reader.record.service.RdrReturnService;
-
 import javax.swing.*;
 import java.awt.*;
 
+// 管理员查看某一本书的借阅记录 窗口
 public class MgrSelectRecordWindow extends JFrame {
     private JPanel northPanel, southPanel, buttonPanel;
     private MgrRecordPanel recordPanel;
     private JLabel titleLabel;
-    private String bISBN;
-    //private JButton renewBtn, returnBtn, backBtn;
-
-    private RdrRenewService renewOperation;
-    private RdrReturnService returnOperation;
 
     public MgrSelectRecordWindow(String bISBN) {
-        this.bISBN = bISBN;
-
         titleLabel = new JLabel("借阅记录");
         titleLabel.setFont(new Font("微软雅黑", Font.BOLD, 20));
 
@@ -30,7 +18,7 @@ public class MgrSelectRecordWindow extends JFrame {
         southPanel = new JPanel(new BorderLayout());
         recordPanel = new MgrRecordPanel(bISBN);
         if (recordPanel.isTableEmpty()) {
-            titleLabel.setText("您当前无借阅记录");
+            titleLabel.setText("此书当前无借阅记录");
         }
         southPanel.add(recordPanel, BorderLayout.NORTH);
 
@@ -39,7 +27,6 @@ public class MgrSelectRecordWindow extends JFrame {
         buttonPanel = new JPanel(buttonPanelFlowLayout);
         southPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-        // Listener for buttons
         this.add(northPanel, BorderLayout.NORTH);
         this.add(southPanel, BorderLayout.SOUTH);
 

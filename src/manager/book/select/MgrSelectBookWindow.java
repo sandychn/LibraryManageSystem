@@ -37,7 +37,7 @@ public class MgrSelectBookWindow extends JFrame {// 查询/选择可修改图书
 		titlePanel.add(titleLabel);
 		northPanel.add(titlePanel, BorderLayout.NORTH);
 
-		searchPanel = new SearchPanel();
+		searchPanel = new SearchPanel(false);
 		northPanel.add(searchPanel, BorderLayout.SOUTH);
 		this.add(northPanel);
 

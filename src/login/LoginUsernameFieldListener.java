@@ -16,12 +16,12 @@ import manager.menu.LibraryMgrMenuWindow;
 import manager.menu.WarehouseMgrMenuWindow;
 import reader.menu.RdrMenuWindow;
 
-public class LoginUserNameFieldListener implements KeyListener {
+public class LoginUsernameFieldListener implements KeyListener {
 
-	private LoginWindow loginWindow;
-	private LoginService loginService;
+	private final LoginWindow loginWindow;
+	private final LoginService loginService;
 
-	public LoginUserNameFieldListener(LoginWindow loginWindow, LoginService loginService) {
+	public LoginUsernameFieldListener(LoginWindow loginWindow, LoginService loginService) {
 		this.loginWindow = loginWindow;
 		this.loginService = loginService;
 	}
@@ -36,23 +36,7 @@ public class LoginUserNameFieldListener implements KeyListener {
 			try {
 				User user = loginService.tryLogin(new User(username, password, -1));
 				CurrentUser.setCurrentUser(user);
-				if (user.getIdentity() == UserConstant.IDENTITY_USER_ADMIN) {
-					@SuppressWarnings("unused")
-					LibraryMgrMenuWindow managerMenu = new LibraryMgrMenuWindow(loginWindow);
-					loginWindow.setVisible(false);
-				} else if (user.getIdentity() == UserConstant.IDENTITY_READER) {
-					@SuppressWarnings("unused")
-					RdrMenuWindow readerMenuWindow = new RdrMenuWindow(loginWindow);
-					loginWindow.setVisible(false);
-				} else if (user.getIdentity() == UserConstant.IDENTITY_STORE_ADMIN) {
-					@SuppressWarnings("unused")
-					WarehouseMgrMenuWindow managerMenu = new WarehouseMgrMenuWindow(loginWindow);
-					loginWindow.setVisible(false);
-				} else if (user.getIdentity() == UserConstant.IDENTITY_SUPER_USER_ADMIN) {
-					@SuppressWarnings("unused")
-					BackgroundMgrMenuWindow managerMenu = new BackgroundMgrMenuWindow(loginWindow);
-					loginWindow.setVisible(false);
-				}
+				loginWindow.launchNextWindow(user);
 			} catch (LoginException exp) {
 				JOptionPane.showMessageDialog(null, exp.getMessage(), "登录失败", JOptionPane.ERROR_MESSAGE);
 			}

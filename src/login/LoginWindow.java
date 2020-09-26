@@ -2,8 +2,8 @@ package login;
 
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -14,10 +14,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import common.constant.UserConstant;
+import entity.User;
 import login.service.LoginService;
+import manager.menu.BackgroundMgrMenuWindow;
+import manager.menu.LibraryMgrMenuWindow;
+import manager.menu.WarehouseMgrMenuWindow;
+import reader.menu.RdrMenuWindow;
 import register.RegWindow;
 
-@SuppressWarnings("serial")
 public class LoginWindow extends JFrame {
 
 	private JPanel panelTitle, panelUName, panelPassword, panelButtons;
@@ -50,14 +55,14 @@ public class LoginWindow extends JFrame {
 
 		labelUName = new JLabel("用户名");
 		textUName = new JTextField(15);
-		textUName.addKeyListener(new LoginUserNameFieldListener(this, loginService));
+		textUName.addKeyListener(new LoginUsernameFieldListener(this, loginService));
 		panelUName = new JPanel();
 		panelUName.add(labelUName);
 		panelUName.add(textUName);
 
 		labelPassword = new JLabel("密　码");
 		textPassword = new JPasswordField(15);
-		textPassword.addKeyListener(new LoginUserNameFieldListener(this, loginService));
+		textPassword.addKeyListener(new LoginPasswordFieldListener(this, loginService));
 		panelPassword = new JPanel();
 		panelPassword.add(labelPassword);
 		panelPassword.add(textPassword);
@@ -70,23 +75,15 @@ public class LoginWindow extends JFrame {
 		buttonLogin.addActionListener(new LoginBtnListener(this, loginService));
 
 		// 重置按钮功能
-		buttonReset.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textPassword.setText("");
-				textUName.setText("");
-				textUName.requestFocus();
-			}
+		buttonReset.addActionListener(e -> {
+			textPassword.setText("");
+			textUName.setText("");
+			textUName.requestFocus();
 		});
 
 		// 注册按钮功能
-		final LoginWindow self = this;
-		buttonRegister.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				@SuppressWarnings("unused")
-				RegWindow rew = new RegWindow(self);
-			}
+		buttonRegister.addActionListener(e -> {
+			new RegWindow(this);
 		});
 
 		panelButtons = new JPanel();
@@ -100,7 +97,49 @@ public class LoginWindow extends JFrame {
 		this.add(panelButtons);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.addWindowListener(new LoginWindowListener(loginService)); // 在窗口即将关闭时断开数据库连接
+
+		// 在窗口即将关闭时断开数据库连接
+		this.addWindowListener(new WindowListener() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				try {
+					loginService.disconnectDatabase();
+				} catch (SQLException exp) {
+					exp.printStackTrace();
+					System.err.println("断开数据库失败: " + exp.getMessage());
+				}
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+
+			}
+		});
 		this.setResizable(false);
 		this.setSize(300, 200);
 		this.setLocationRelativeTo(null);
@@ -122,6 +161,31 @@ public class LoginWindow extends JFrame {
 
 	public void setPassword(String password) {
 		textPassword.setText(password);
+	}
+
+	public void launchNextWindow(User user) {
+		switch (user.getIdentity()) {
+			case UserConstant.IDENTITY_READER:
+				new RdrMenuWindow(this);
+				this.setVisible(false);
+				break;
+			case UserConstant.IDENTITY_USER_ADMIN:
+				new LibraryMgrMenuWindow(this);
+				this.setVisible(false);
+				break;
+			case UserConstant.IDENTITY_STORE_ADMIN:
+				new WarehouseMgrMenuWindow(this);
+				this.setVisible(false);
+				break;
+			case UserConstant.IDENTITY_SUPER_USER_ADMIN:
+				new BackgroundMgrMenuWindow(this);
+				this.setVisible(false);
+				break;
+			default:
+				JOptionPane.showMessageDialog(null, "未知用户身份",
+						"登录时遇到错误，请联系管理员", JOptionPane.ERROR_MESSAGE);
+				break;
+		}
 	}
 
 }

@@ -17,8 +17,8 @@ import reader.menu.RdrMenuWindow;
 
 public class LoginBtnListener implements ActionListener {
 
-	private LoginWindow loginWindow;
-	private LoginService loginService;
+	private final LoginWindow loginWindow;
+	private final LoginService loginService;
 
 	public LoginBtnListener(LoginWindow loginWindow, LoginService loginService) {
 		this.loginWindow = loginWindow;
@@ -31,25 +31,10 @@ public class LoginBtnListener implements ActionListener {
 		try {
 			User user = loginService.tryLogin(new User(username, password, -1));
 			CurrentUser.setCurrentUser(user);
-			if (user.getIdentity() == UserConstant.IDENTITY_USER_ADMIN) {
-				@SuppressWarnings("unused")
-				LibraryMgrMenuWindow managerMenu = new LibraryMgrMenuWindow(loginWindow);
-				loginWindow.setVisible(false);
-			} else if (user.getIdentity() == UserConstant.IDENTITY_READER) {
-				@SuppressWarnings("unused")
-				RdrMenuWindow readerMenuWindow = new RdrMenuWindow(loginWindow);
-				loginWindow.setVisible(false);
-			} else if (user.getIdentity() == UserConstant.IDENTITY_STORE_ADMIN) {
-				@SuppressWarnings("unused")
-				WarehouseMgrMenuWindow managerMenu = new WarehouseMgrMenuWindow(loginWindow);
-				loginWindow.setVisible(false);
-			} else if (user.getIdentity() == UserConstant.IDENTITY_SUPER_USER_ADMIN) {
-				@SuppressWarnings("unused")
-				BackgroundMgrMenuWindow managerMenu = new BackgroundMgrMenuWindow(loginWindow);
-				loginWindow.setVisible(false);
-			}
+			loginWindow.launchNextWindow(user);
 		} catch (LoginException exp) {
-			JOptionPane.showMessageDialog(null, exp.getMessage(), "µÇÂ¼Ê§°Ü", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, exp.getMessage(),
+					"登录时遇到错误，请联系管理员", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
