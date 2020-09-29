@@ -4,9 +4,9 @@ USE lmsdb;
 
 CREATE TABLE lib_user
 (
-	uName     VARCHAR(20)   NOT NULL PRIMARY KEY, 
-	uPassword VARCHAR(16)   NOT NULL,
-	uIdentity INT           NOT NULL CHECK(uIdentity IN (1, 2, 3, 4))
+    uName     VARCHAR(20)   NOT NULL PRIMARY KEY, 
+    uPassword VARCHAR(16)   NOT NULL,
+    uIdentity INT           NOT NULL CHECK(uIdentity IN (1, 2, 3, 4))
 ) CHARSET=utf8;
 
 CREATE TABLE book_class
@@ -18,22 +18,22 @@ CREATE TABLE book_class
 CREATE TABLE book
 (
     bISBN    CHAR(13)       PRIMARY KEY CHECK(bISBN LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
-	bName    NVARCHAR(40)   NOT NULL,
-	bAuthor  NVARCHAR(20)   NOT NULL,
-	bPress   NVARCHAR(40)   NOT NULL,
-	bClassId INT            NOT NULL,
-	bCount   INT            NOT NULL CHECK(bCount >= 0),
-	bSum     INT            NOT NULL CHECK(bSum >= 0),
-	FOREIGN KEY (bClassId) REFERENCES book_class(bClassId) 
+    bName    NVARCHAR(40)   NOT NULL,
+    bAuthor  NVARCHAR(20)   NOT NULL,
+    bPress   NVARCHAR(40)   NOT NULL,
+    bClassId INT            NOT NULL,
+    bCount   INT            NOT NULL CHECK(bCount >= 0),
+    bSum     INT            NOT NULL CHECK(bSum >= 0),
+    FOREIGN KEY (bClassId) REFERENCES book_class(bClassId) 
 ) CHARSET=utf8;
 
 CREATE TABLE book_lending
 (
     bISBN   CHAR(13),
-	uName   NVARCHAR(20),
-	blTime  DATETIME NOT NULL,
-	blDue   INT      NOT NULL,
-	brTime  DATETIME
+    uName   NVARCHAR(20),
+    blTime  DATETIME NOT NULL,
+    blDue   INT      NOT NULL,
+    brTime  DATETIME
 ) CHARSET=utf8;
 
 INSERT INTO lib_user VALUES ('USEr1', '123456', 1);
